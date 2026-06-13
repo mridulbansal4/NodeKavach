@@ -1,0 +1,160 @@
+{
+  "case_id": "Alpha-099",
+  "risk_score": 18.0,
+  "risk_probability": 0.12,
+  "severity": "LOW",
+  "classification": {
+    "typology": null,
+    "confidence": 0.0,
+    "matched_indicators": [],
+    "typology_description": ""
+  },
+  "shap_values": [
+    {
+      "feature": "Legitimacy Indicator",
+      "raw_feature": "F2082",
+      "shap_value": -0.28,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Tenure",
+      "raw_feature": "F2956",
+      "shap_value": -0.21,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Standing Period",
+      "raw_feature": "F3889",
+      "shap_value": -0.15,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Holder Age",
+      "raw_feature": "F3894",
+      "shap_value": -0.11,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Transaction Risk Score",
+      "raw_feature": "F115",
+      "shap_value": 0.08,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Activity Count",
+      "raw_feature": "F3043",
+      "shap_value": -0.06,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Holder Occupation",
+      "raw_feature": "F3891",
+      "shap_value": -0.05,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F1597",
+      "raw_feature": "F1597",
+      "shap_value": 0.04,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F2030",
+      "raw_feature": "F2030",
+      "shap_value": -0.03,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "High-Risk Flag",
+      "raw_feature": "F670",
+      "shap_value": -0.02,
+      "direction": "reduces_risk",
+      "feature_value": null
+    }
+  ],
+  "behavioural_indicators": [
+    {
+      "key": "dormancy_signal",
+      "label": "Dormancy Signal",
+      "value": 0.125,
+      "raw_value": 70.0,
+      "source_feature": "F2956",
+      "description": "Low account tenure / dormancy-break signal. Mule median 41 vs legit 64."
+    },
+    {
+      "key": "activity_flag",
+      "label": "Activity Flag",
+      "value": 0.31,
+      "raw_value": 0.31,
+      "source_feature": "F115",
+      "description": "Elevated transactional activity. Mules score ~22% higher (0.72 vs 0.59)."
+    },
+    {
+      "key": "legitimacy_gap",
+      "label": "Legitimacy Gap",
+      "value": 0.2,
+      "raw_value": 1.0,
+      "source_feature": "F2082",
+      "description": "Missing legitimacy indicator. Every confirmed mule has F2082 = 0."
+    },
+    {
+      "key": "missingness_pattern",
+      "label": "Missingness Pattern",
+      "value": 0.25,
+      "raw_value": 12.0,
+      "source_feature": "F3043",
+      "description": "Activity-count field absent. 82.7% of mules missing it vs 64% of legit."
+    },
+    {
+      "key": "high_risk_flag",
+      "label": "High-Risk Flag",
+      "value": 0.4,
+      "raw_value": null,
+      "source_feature": "F670",
+      "description": "F670 = 1 carries a 2.29% mule rate (2.6x the population average)."
+    },
+    {
+      "key": "risk_score",
+      "label": "Risk Score",
+      "value": 0.31,
+      "raw_value": 0.31,
+      "source_feature": "F115",
+      "description": "Normalised transaction risk score derived from F115."
+    },
+    {
+      "key": "occupation_risk",
+      "label": "Occupation Risk",
+      "value": 0.2,
+      "raw_value": null,
+      "source_feature": "F3891",
+      "description": "Occupation 'retired' carries a 0.40% mule prior."
+    },
+    {
+      "key": "account_standing",
+      "label": "Account Standing",
+      "value": 0.635,
+      "raw_value": null,
+      "source_feature": "F3889",
+      "description": "Standing 'G365D' carries a 0.80% mule prior."
+    }
+  ],
+  "account_profile": {
+    "occupation": "retired",
+    "account_standing": "G365D",
+    "age": 58.0,
+    "account_tenure": 70.0
+  },
+  "f3912_flag": false,
+  "ai_report": "EXECUTIVE SUMMARY\n\nThis report investigates the Alpha-099 account, which has a risk score of 18.0/100 and is classified as LOW severity. The model risk probability is 0.1200, indicating a moderate likelihood of potential fraud. No F3912 registry match was found.\n\nRISK ASSESSMENT\n\nThe risk assessment for this account is based on the SHAP (SHapley Additive exPlanations) values of its top indicators. A negative SHAP value indicates a reduction in risk, while a positive value increases risk. The account's legitimacy indicator, account tenure, and standing period have moderate to high reductions in risk, while the transaction risk score has a low increase in risk.\n\nKEY FRAUD INDICATORS\n\nThe following indicators are considered key fraud indicators for this account:\n\n* Legitimacy Indicator (F2082): SHAP -0.280\n* Account Tenure (F2956): SHAP -0.210\n* Account Standing Period (F3889): SHAP -0.150\n* Account Holder Age (F3894): SHAP -0.110\n\nThese indicators suggest that the account is legitimate, with moderate reductions in risk.\n\nMULE TYPOLOGY ASSESSMENT\n\nNo mule typology evidence was found to match this account, and its confidence level is 0%. This indicates that the account profile does not exhibit any characteristics commonly associated with fraudulent activity.\n\nACCOUNT PROFILE ANALYSIS\n\nThe account holder's occupation is listed as retired, with an account standing period of G365D and an age of 58.0 years. The account tenure is 70.0 years, indicating a long-standing relationship with the bank.\n\nRECOMMENDED ACTIONS\n\nBased on this investigation, no immediate action is required for this account. However, it is recommended that the compliance officer monitor this account's activity closely to ensure it remains legitimate and compliant with regulatory requirements.\n\nREGULATORY NOTE\n\nThis report is in accordance with Bank of India's risk management policies and procedures. The findings and recommendations are based on structured analysis and should be reviewed by the relevant stakeholders before any further action is taken.",
+  "ai_report_source": "ollama",
+  "model_used": "Model B"
+}

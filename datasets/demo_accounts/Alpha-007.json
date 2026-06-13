@@ -1,0 +1,163 @@
+{
+  "case_id": "Alpha-007",
+  "risk_score": 52.0,
+  "risk_probability": 0.91,
+  "severity": "MEDIUM",
+  "classification": {
+    "typology": "DORMANT_ACTIVATED",
+    "confidence": 0.58,
+    "matched_indicators": [
+      "Moderate dormancy-break signal",
+      "Activity slightly above population mean"
+    ],
+    "typology_description": "A long-lapsed or very new account that has suddenly become active — a classic dormancy-break laundering pattern."
+  },
+  "shap_values": [
+    {
+      "feature": "Account Tenure",
+      "raw_feature": "F2956",
+      "shap_value": 0.14,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Transaction Risk Score",
+      "raw_feature": "F115",
+      "shap_value": 0.11,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Standing Period",
+      "raw_feature": "F3889",
+      "shap_value": 0.08,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Legitimacy Indicator",
+      "raw_feature": "F2082",
+      "shap_value": -0.12,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Holder Occupation",
+      "raw_feature": "F3891",
+      "shap_value": -0.06,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Activity Count",
+      "raw_feature": "F3043",
+      "shap_value": 0.05,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Holder Age",
+      "raw_feature": "F3894",
+      "shap_value": -0.04,
+      "direction": "reduces_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F2122",
+      "raw_feature": "F2122",
+      "shap_value": 0.03,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F270",
+      "raw_feature": "F270",
+      "shap_value": 0.02,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F1603",
+      "raw_feature": "F1603",
+      "shap_value": -0.02,
+      "direction": "reduces_risk",
+      "feature_value": null
+    }
+  ],
+  "behavioural_indicators": [
+    {
+      "key": "dormancy_signal",
+      "label": "Dormancy Signal",
+      "value": 0.525,
+      "raw_value": 38.0,
+      "source_feature": "F2956",
+      "description": "Low account tenure / dormancy-break signal. Mule median 41 vs legit 64."
+    },
+    {
+      "key": "activity_flag",
+      "label": "Activity Flag",
+      "value": 0.61,
+      "raw_value": 0.61,
+      "source_feature": "F115",
+      "description": "Elevated transactional activity. Mules score ~22% higher (0.72 vs 0.59)."
+    },
+    {
+      "key": "legitimacy_gap",
+      "label": "Legitimacy Gap",
+      "value": 0.2,
+      "raw_value": 1.0,
+      "source_feature": "F2082",
+      "description": "Missing legitimacy indicator. Every confirmed mule has F2082 = 0."
+    },
+    {
+      "key": "missingness_pattern",
+      "label": "Missingness Pattern",
+      "value": 0.85,
+      "raw_value": null,
+      "source_feature": "F3043",
+      "description": "Activity-count field absent. 82.7% of mules missing it vs 64% of legit."
+    },
+    {
+      "key": "high_risk_flag",
+      "label": "High-Risk Flag",
+      "value": 0.4,
+      "raw_value": null,
+      "source_feature": "F670",
+      "description": "F670 = 1 carries a 2.29% mule rate (2.6x the population average)."
+    },
+    {
+      "key": "risk_score",
+      "label": "Risk Score",
+      "value": 0.61,
+      "raw_value": 0.61,
+      "source_feature": "F115",
+      "description": "Normalised transaction risk score derived from F115."
+    },
+    {
+      "key": "occupation_risk",
+      "label": "Occupation Risk",
+      "value": 0.45,
+      "raw_value": null,
+      "source_feature": "F3891",
+      "description": "Occupation 'selfemployed' carries a 0.90% mule prior."
+    },
+    {
+      "key": "account_standing",
+      "label": "Account Standing",
+      "value": 0.476,
+      "raw_value": null,
+      "source_feature": "F3889",
+      "description": "Standing 'L90D' carries a 0.60% mule prior."
+    }
+  ],
+  "account_profile": {
+    "occupation": "selfemployed",
+    "account_standing": "L90D",
+    "age": 36.0,
+    "account_tenure": 38.0
+  },
+  "f3912_flag": false,
+  "ai_report": "**EXECUTIVE SUMMARY**\n\nThis report investigates the Alpha-007 account, which has been flagged for potential suspicious activity. The risk score of 52.0/100 indicates a medium-level risk, with a model risk probability of 0.9100. Further analysis reveals moderate dormancy-break signals and slightly above-average activity.\n\n**RISK ASSESSMENT**\n\nThe Alpha-007 account exhibits a combination of risk indicators, including increased account tenure (F2956), transaction risk score (F115), and account standing period (F3889). These factors contribute to a medium-level risk assessment. The legitimacy indicator (F2082) and account holder occupation (F3891) suggest a reduced risk.\n\n**KEY FRAUD INDICATORS**\n\nThe following SHAP values indicate potential fraud indicators:\n• Account Tenure (F2956): +0.140\n• Transaction Risk Score (F115): +0.110\n• Account Standing Period (F3889): +0.080\n• Legitimacy Indicator (F2082): -0.120\n• Account Holder Occupation (F3891): -0.060\n\n**MULE TYPOLOGY ASSESSMENT**\n\nThe account typology is classified as DORMANT_ACTIVATED with a confidence level of 58%. The matched typology evidence includes moderate dormancy-break signals and activity slightly above the population mean.\n\n**ACCOUNT PROFILE ANALYSIS**\n\nThe account holder's profile is:\n• Occupation: selfemployed\n• Account standing period: L90D\n• Account holder age: 36.0\n• Account tenure: 38.0\n\nThese factors do not significantly contribute to the overall risk assessment.\n\n**RECOMMENDED ACTIONS**\n\nDue to the medium-level risk and potential fraud indicators, we recommend:\n1. Conducting a thorough review of account activity.\n2. Verifying the legitimacy of transactions and account holder information.\n3. Monitoring the account for any further suspicious activity.\n\n**REGULATORY NOTE**\n\nThis report is in compliance with Bank of India's anti-money laundering policies and regulatory requirements.",
+  "ai_report_source": "ollama",
+  "model_used": "Model B"
+}

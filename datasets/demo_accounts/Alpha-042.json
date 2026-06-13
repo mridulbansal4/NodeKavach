@@ -1,0 +1,165 @@
+{
+  "case_id": "Alpha-042",
+  "risk_score": 94.0,
+  "risk_probability": 0.998,
+  "severity": "CRITICAL",
+  "classification": {
+    "typology": "SYNTHETIC_IDENTITY",
+    "confidence": 0.97,
+    "matched_indicators": [
+      "Fraud registry match (F3912=1)",
+      "High-risk flag set (F670=1)",
+      "Low-income occupation (student/agriculture)",
+      "Very new account (low tenure)"
+    ],
+    "typology_description": "Likely synthetic / borrowed identity — high-risk flag set, low-income occupation profile, and a very recently opened account."
+  },
+  "shap_values": [
+    {
+      "feature": "Fraud Registry Flag (Leakage Warning)",
+      "raw_feature": "F3912",
+      "shap_value": 0.46,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "High-Risk Flag",
+      "raw_feature": "F670",
+      "shap_value": 0.29,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Legitimacy Indicator",
+      "raw_feature": "F2082",
+      "shap_value": 0.18,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Tenure",
+      "raw_feature": "F2956",
+      "shap_value": 0.15,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Holder Occupation",
+      "raw_feature": "F3891",
+      "shap_value": 0.11,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Transaction Risk Score",
+      "raw_feature": "F115",
+      "shap_value": 0.08,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Account Standing Period",
+      "raw_feature": "F3889",
+      "shap_value": 0.06,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F3484",
+      "raw_feature": "F3484",
+      "shap_value": 0.04,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F3898",
+      "raw_feature": "F3898",
+      "shap_value": 0.03,
+      "direction": "increases_risk",
+      "feature_value": null
+    },
+    {
+      "feature": "Feature F1921",
+      "raw_feature": "F1921",
+      "shap_value": -0.02,
+      "direction": "reduces_risk",
+      "feature_value": null
+    }
+  ],
+  "behavioural_indicators": [
+    {
+      "key": "dormancy_signal",
+      "label": "Dormancy Signal",
+      "value": 0.725,
+      "raw_value": 22.0,
+      "source_feature": "F2956",
+      "description": "Low account tenure / dormancy-break signal. Mule median 41 vs legit 64."
+    },
+    {
+      "key": "activity_flag",
+      "label": "Activity Flag",
+      "value": 0.8,
+      "raw_value": 0.8,
+      "source_feature": "F115",
+      "description": "Elevated transactional activity. Mules score ~22% higher (0.72 vs 0.59)."
+    },
+    {
+      "key": "legitimacy_gap",
+      "label": "Legitimacy Gap",
+      "value": 1.0,
+      "raw_value": 0.0,
+      "source_feature": "F2082",
+      "description": "Missing legitimacy indicator. Every confirmed mule has F2082 = 0."
+    },
+    {
+      "key": "missingness_pattern",
+      "label": "Missingness Pattern",
+      "value": 0.85,
+      "raw_value": null,
+      "source_feature": "F3043",
+      "description": "Activity-count field absent. 82.7% of mules missing it vs 64% of legit."
+    },
+    {
+      "key": "high_risk_flag",
+      "label": "High-Risk Flag",
+      "value": 1.0,
+      "raw_value": 1.0,
+      "source_feature": "F670",
+      "description": "F670 = 1 carries a 2.29% mule rate (2.6x the population average)."
+    },
+    {
+      "key": "risk_score",
+      "label": "Risk Score",
+      "value": 0.8,
+      "raw_value": 0.8,
+      "source_feature": "F115",
+      "description": "Normalised transaction risk score derived from F115."
+    },
+    {
+      "key": "occupation_risk",
+      "label": "Occupation Risk",
+      "value": 0.63,
+      "raw_value": null,
+      "source_feature": "F3891",
+      "description": "Occupation 'agriculture' carries a 1.26% mule prior."
+    },
+    {
+      "key": "account_standing",
+      "label": "Account Standing",
+      "value": 0.714,
+      "raw_value": null,
+      "source_feature": "F3889",
+      "description": "Standing 'L180D' carries a 0.90% mule prior."
+    }
+  ],
+  "account_profile": {
+    "occupation": "agriculture",
+    "account_standing": "L180D",
+    "age": 31.0,
+    "account_tenure": 22.0
+  },
+  "f3912_flag": true,
+  "ai_report": "**EXECUTIVE SUMMARY**\n\nThis report investigates the Alpha-042 account, which has been flagged for high risk due to a score of 94.0/100 and a critical severity level. The model risk probability is 0.9980, indicating a strong likelihood of fraud. A match was found in the Fraud Registry (F3912), further confirming the elevated risk.\n\n**RISK ASSESSMENT**\n\nThe account's risk profile is characterized by a high-risk flag (F670) with a SHAP value of +0.290, increasing the risk by 29%. The Legitimacy Indicator (F2082) also shows a positive SHAP value (+0.180), contributing to the overall risk assessment. These indicators suggest that the account may be subject to synthetic identity fraud.\n\n**KEY FRAUD INDICATORS**\n\nThe following key fraud indicators have been identified:\n• Fraud Registry Flag (Leakage Warning) (F3912): +0.460\n• High-Risk Flag (F670): +0.290\n• Legitimacy Indicator (F2082): +0.180\n• Account Tenure (F2956): +0.150\n• Account Holder Occupation (F3891): +0.110\n\nThese indicators collectively increase the risk assessment, indicating a high likelihood of fraud.\n\n**MULE TYPOLOGY ASSESSMENT**\n\nThe account has been classified as Synthetic Identity with a confidence level of 97%. The matched typology evidence includes:\n• Fraud registry match (F3912=1)\n• High-risk flag set (F670=1)\n• Low-income occupation (student/agriculture)\n• Very new account (low tenure)\n\nThese characteristics are consistent with synthetic identity fraud, where an individual creates a false identity to obtain credit or other financial services.\n\n**ACCOUNT PROFILE ANALYSIS**\n\nThe account holder's profile is as follows:\n• Occupation: agriculture\n• Account standing period: L180D\n• Account holder age: 31.0\n• Account tenure: 22.0\n\nThe low-income occupation and very new account tenure contribute to the overall risk assessment, suggesting that the individual may be vulnerable to exploitation.\n\n**RECOMMENDED ACTIONS**\n\nBased on this investigation, we recommend:\n• Immediate flagging of the account for further review\n• Notification of senior management and compliance team\n• Initiation of enhanced due diligence procedures\n• Review of transaction activity for suspicious behavior\n\nThese actions will help mitigate potential losses and ensure regulatory compliance.\n\n**REGULATORY NOTE**\n\nThis report is in accordance with Bank of India's Anti-Money Laundering (AML) and Combating the Financing of Terrorism (CFT) policies. The findings and recommendations are based on the structured analysis provided, and all necessary steps will be taken to address the identified risks.",
+  "ai_report_source": "ollama",
+  "model_used": "Model A"
+}

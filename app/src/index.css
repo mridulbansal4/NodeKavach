@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-bg text-textPrimary font-body antialiased;
+    margin: 0;
+  }
+  /* Analyst-grade scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050d1a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e3a5f;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a4d78;
+  }
+}
+
+@layer components {
+  /* Section header: uppercase, tracked, 2px accent left border */
+  .section-header {
+    @apply font-display text-[18px] font-semibold uppercase tracking-[0.08em] text-textPrimary
+      border-l-2 border-accent pl-3 mb-4;
+  }
+  .panel {
+    @apply bg-surface border border-border rounded-md;
+  }
+  .panel-2 {
+    @apply bg-surface2 border border-border rounded-md;
+  }
+  .label-mono {
+    @apply font-mono text-[12px] text-textSecondary;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm font-body text-[13px]
+      font-medium border transition-colors duration-150;
+  }
+  .btn-primary {
+    @apply btn bg-primary border-primary text-white hover:bg-[#1565C0];
+  }
+  .btn-ghost {
+    @apply btn bg-transparent border-border text-textSecondary hover:bg-border hover:text-textPrimary;
+  }
+  .stat-value {
+    @apply font-display font-bold text-textPrimary;
+  }
+}
