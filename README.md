@@ -26,12 +26,6 @@ Built for the **Bank of India × IIT Hyderabad — CyberShield Hackathon 2026** 
 > Every decision is explainable. Every alert has a story. Every flagged account gets an
 > AI-generated investigation narrative — produced by a **local** LLM, with **zero external API calls** at runtime.
 
-<div align="center">
-
-![Investigation Center](docs/screenshots/investigation.png)
-
-</div>
-
 ---
 
 ## Table of contents
@@ -40,7 +34,6 @@ Built for the **Bank of India × IIT Hyderabad — CyberShield Hackathon 2026** 
 - [What MULEFLAGGER does](#what-muleflagger-does)
 - [Results](#results)
 - [The F3912 leakage story](#the-f3912-leakage-story)
-- [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Tech stack](#tech-stack)
 - [Getting started](#getting-started)
@@ -123,19 +116,6 @@ is the project's core intellectual-honesty statement.
 A related finding: the engineered **missingness indicators** (`F3043_missing`, etc.)
 routinely surface in the top SHAP importances, confirming the thesis that in this
 dataset, *what is absent* discriminates mules as strongly as *what is present*.
-
----
-
-## Screenshots
-
-| Dashboard | Model Metrics |
-|:---:|:---:|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Metrics](docs/screenshots/metrics.png) |
-| **Dataset Analysis** | **Intelligence Report** |
-| ![Dataset](docs/screenshots/dataset.png) | ![Report](docs/screenshots/report.png) |
-
-The **risk gauge** (animated SVG arc), **SHAP waterfall**, and **behavioural-indicator bars**
-are all hand-built in SVG/CSS — no charting library.
 
 ---
 
