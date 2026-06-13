@@ -2,16 +2,8 @@ import { useEffect, useState } from "react";
 import type { Severity } from "../api/types";
 import { scoreColor } from "../lib/severity";
 
-<<<<<<< HEAD
 // Risk gauge: 240° SVG arc, colour-coded by score, enterprise-style.
 const START_ANGLE = 150;
-=======
-// The signature NodeKavach risk gauge: a 240° SVG arc, colour-coded by score,
-// with the score in 72px Space Grotesk at the centre, a severity label below,
-// a severity-matched glow, and a fill animation on load (0 -> score, 600ms).
-
-const START_ANGLE = 150; // degrees — opens at the bottom with a 120° gap
->>>>>>> 7846f3af036684a27dd6db0a81f46b0878b43163
 const SWEEP = 240;
 
 function polar(cx: number, cy: number, r: number, angleDeg: number) {

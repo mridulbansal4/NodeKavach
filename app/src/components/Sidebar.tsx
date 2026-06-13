@@ -11,13 +11,8 @@ export default function Sidebar() {
   return (
     <aside className="w-[220px] shrink-0 bg-surface border-r border-border flex flex-col">
       <div className="px-5 py-5 border-b border-border">
-<<<<<<< HEAD
         <div className="font-display font-bold text-[20px] tracking-tight text-primary">
           MULE<span className="text-accent">FLAGGER</span>
-=======
-        <div className="font-display font-bold text-[20px] tracking-tight text-textPrimary">
-          Node<span className="text-accent">Kavach</span>
->>>>>>> 7846f3af036684a27dd6db0a81f46b0878b43163
         </div>
         <div className="font-mono text-[9px] text-textMuted mt-1 tracking-[0.12em] uppercase">
           Financial Intelligence Platform
