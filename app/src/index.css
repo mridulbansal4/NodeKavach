@@ -12,49 +12,52 @@
     @apply bg-bg text-textPrimary font-body antialiased;
     margin: 0;
   }
-  /* Analyst-grade scrollbars */
+  /* Enterprise-grade scrollbars */
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #050d1a;
+    background: #F0F2F5;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1e3a5f;
-    border-radius: 2px;
+    background: #C8CED8;
+    border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #2a4d78;
+    background: #A0AAB8;
   }
 }
 
 @layer components {
-  /* Section header: uppercase, tracked, 2px accent left border */
+  /* Section header: uppercase, tracked, 3px accent left border */
   .section-header {
-    @apply font-display text-[18px] font-semibold uppercase tracking-[0.08em] text-textPrimary
-      border-l-2 border-accent pl-3 mb-4;
+    @apply font-display text-[16px] font-semibold uppercase tracking-[0.06em] text-textPrimary
+      border-l-[3px] border-accent pl-3 mb-4;
   }
   .panel {
-    @apply bg-surface border border-border rounded-md;
+    @apply bg-surface border border-border rounded-lg shadow-sm;
   }
   .panel-2 {
-    @apply bg-surface2 border border-border rounded-md;
+    @apply bg-surface2 border border-border rounded-lg;
   }
   .label-mono {
-    @apply font-mono text-[12px] text-textSecondary;
+    @apply font-mono text-[11px] text-textSecondary uppercase tracking-wider;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm font-body text-[13px]
-      font-medium border transition-colors duration-150;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-body text-[13px]
+      font-medium border transition-all duration-150;
   }
   .btn-primary {
-    @apply btn bg-primary border-primary text-white hover:bg-[#1565C0];
+    @apply btn bg-primary border-primary text-white hover:bg-[#243757] shadow-sm;
   }
   .btn-ghost {
-    @apply btn bg-transparent border-border text-textSecondary hover:bg-border hover:text-textPrimary;
+    @apply btn bg-transparent border-border text-textSecondary hover:bg-surface2 hover:text-textPrimary;
   }
   .stat-value {
     @apply font-display font-bold text-textPrimary;
+  }
+  .card {
+    @apply bg-surface border border-border rounded-lg shadow-sm;
   }
 }

@@ -53,6 +53,8 @@ app.include_router(cases.router)
 app.include_router(metrics.router)
 app.include_router(investigation.router)
 app.include_router(dataset.router)
+from app.routes import intelligence
+app.include_router(intelligence.router)
 
 
 @app.get("/")

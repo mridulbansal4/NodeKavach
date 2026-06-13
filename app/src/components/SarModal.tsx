@@ -1,8 +1,7 @@
 import type { AccountAnalysis } from "../api/types";
 import { typologyLabel } from "../lib/severity";
 
-// Suspicious Activity Report (SAR / STR) draft modal — a fillable template
-// pre-populated from the analysis. Mirrors an FIU-IND STR structure.
+// SAR / STR draft modal — enterprise style overlay.
 export default function SarModal({
   analysis,
   onClose,
@@ -52,16 +51,16 @@ RECOMMENDED ACTION    : ${
       : "Routine logging"
   }
 
-Prepared by MULEFLAGGER · BOI × IITH CyberShield Hackathon 2026`;
+Prepared by MULEFLAGGER Financial Intelligence Platform · BOI × IITH CyberShield Hackathon 2026`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-6 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="panel w-full max-w-2xl max-h-[80vh] overflow-y-auto"
+        className="bg-surface w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-xl shadow-xl border border-border"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
-          <h3 className="section-header mb-0">SAR / STR Draft</h3>
+          <h3 className="section-header mb-0 text-[14px]">SAR / STR Draft</h3>
           <button className="btn-ghost" onClick={onClose}>
             Close
           </button>

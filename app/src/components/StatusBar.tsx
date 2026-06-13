@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../api/client";
 import type { HealthResponse } from "../api/types";
 
-// Bottom system status bar: model status, Ollama dot, dataset count.
+// Bottom system status bar — light enterprise style.
 export default function StatusBar() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [err, setErr] = useState(false);
@@ -25,7 +25,7 @@ export default function StatusBar() {
   const ollamaOk = health?.ollama.reachable ?? false;
 
   return (
-    <div className="border-t border-border bg-bg px-6 py-2 flex items-center gap-6 text-[11px] font-mono text-textSecondary">
+    <div className="border-t border-border bg-surface px-6 py-2 flex items-center gap-6 text-[11px] font-mono text-textSecondary">
       <span className="flex items-center gap-2">
         <Dot ok={health?.model_loaded ?? false} />
         {health ? health.active_model : "Model status…"}
@@ -36,14 +36,14 @@ export default function StatusBar() {
       </span>
       <span className="flex items-center gap-2">
         <Dot ok={health?.dataset_loaded ?? false} />
-        {health ? `${health.dataset_accounts.toLocaleString()} accounts loaded` : "Dataset…"}
+        {health ? `${health.dataset_accounts.toLocaleString()} entities loaded` : "Dataset…"}
       </span>
       {err && (
-        <span className="text-high">
+        <span className="text-critical">
           Backend unreachable at /api. Start the FastAPI server on :8000.
         </span>
       )}
-      <span className="ml-auto text-textMuted">MULEFLAGGER v1.0 · on-premises · no external calls</span>
+      <span className="ml-auto text-textMuted">MULEFLAGGER v2.0 · on-premises · zero external calls</span>
     </div>
   );
 }
@@ -52,7 +52,7 @@ function Dot({ ok }: { ok: boolean }) {
   return (
     <span
       className="inline-block h-2 w-2 rounded-full"
-      style={{ backgroundColor: ok ? "#34C759" : "#FF3B30" }}
+      style={{ backgroundColor: ok ? "#2B6C3F" : "#C53030" }}
     />
   );
 }

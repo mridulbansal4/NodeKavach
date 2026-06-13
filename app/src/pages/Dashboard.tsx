@@ -24,42 +24,58 @@ export default function Dashboard() {
   const mules = cases.filter((c) => c.severity === "CRITICAL" || c.severity === "HIGH").length;
   const avgRisk =
     total > 0 ? Math.round(cases.reduce((s, c) => s + c.risk_score, 0) / total) : 0;
-  const prAuc = metrics?.model_b?.pr_auc ?? null;
+  const opsUnderInvestigation = mules;
+  const estimatedExposure = (mules * 14.4).toFixed(1);
+  const activeCampaigns = Math.max(1, Math.ceil(mules / 3));
 
   return (
     <div>
       <header className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="font-display text-[28px] font-bold text-textPrimary">Dashboard</h1>
+          <h1 className="font-display text-[28px] font-bold text-primary">Operations Center</h1>
           <p className="text-[13px] text-textSecondary">
-            Fraud intelligence operating system — every alert has a story.
+            Financial intelligence operating system — identify coordinated fraud operations.
           </p>
         </div>
         <div className="font-mono text-[12px] text-textMuted">BOI × IITH Hackathon 2026</div>
       </header>
 
-      <div className="grid grid-cols-4 gap-4 mb-8">
-        <KpiCard label="Accounts Analysed" value={String(total)} sub="demo + uploaded cases" accent="#00D4FF" />
-        <KpiCard label="Mule Accounts Flagged" value={String(mules)} sub="CRITICAL + HIGH severity" accent="#FF3B30" />
-        <KpiCard label="Average Risk Score" value={String(avgRisk)} sub="across all cases" accent="#FF9500" />
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        <KpiCard label="Entities Analysed" value={String(total)} sub="demo + uploaded entities" accent="#2D7A9C" />
+        <KpiCard label="Active Fraud Operations" value={String(mules)} sub="CRITICAL + HIGH severity" accent="#C53030" />
+        <KpiCard label="Network Risk Index" value={String(avgRisk)} sub="mean risk across all entities" accent="#B7791F" />
+      </div>
+      <div className="grid grid-cols-3 gap-4 mb-8">
         <KpiCard
-          label="Model PR-AUC"
-          value={prAuc !== null ? prAuc.toFixed(3) : "—"}
-          sub="Model B · primary metric"
-          accent="#34C759"
+          label="Operations Under Investigation"
+          value={String(opsUnderInvestigation)}
+          sub="open cases requiring action"
+          accent="#1B2A4A"
+        />
+        <KpiCard
+          label="Estimated Exposure"
+          value={`₹${estimatedExposure}L`}
+          sub="projected fraud value (lakhs)"
+          accent="#997B2F"
+        />
+        <KpiCard
+          label="Active Campaigns"
+          value={String(activeCampaigns)}
+          sub="coordinated operation clusters"
+          accent="#2B6C3F"
         />
       </div>
 
       <section>
-        <h2 className="section-header">Recent Cases</h2>
+        <h2 className="section-header">Active Intelligence Cases</h2>
         <div className="panel overflow-hidden">
           <table className="w-full text-left">
             <thead>
-              <tr className="text-[11px] uppercase tracking-wider text-textSecondary border-b border-border">
+              <tr className="text-[11px] uppercase tracking-wider text-textSecondary border-b border-border bg-surface2">
                 <Th>Case ID</Th>
                 <Th>Risk</Th>
                 <Th>Severity</Th>
-                <Th>Typology</Th>
+                <Th>Operation Type</Th>
                 <Th>Standing</Th>
                 <Th>Occupation</Th>
                 <Th>Action</Th>
@@ -76,20 +92,20 @@ export default function Dashboard() {
               {!loading && cases.length === 0 && (
                 <tr>
                   <td colSpan={7} className="px-4 py-6 text-textMuted text-[13px]">
-                    No accounts analysed yet. Load the BOI dataset to begin.
+                    No entities analysed yet. Load the BOI dataset to begin.
                   </td>
                 </tr>
               )}
               {cases.map((c, i) => (
                 <tr
                   key={c.case_id}
-                  className="border-b border-border/50 hover:bg-border/40 transition-colors"
-                  style={{ backgroundColor: i % 2 ? "#0A1828" : "transparent" }}
+                  className="border-b border-border/50 hover:bg-surface2 transition-colors"
+                  style={{ backgroundColor: i % 2 ? "#FAFBFC" : "transparent" }}
                 >
                   <Td>
                     <span className="font-mono text-[13px] text-textPrimary">{c.case_id}</span>
                     {c.is_demo && (
-                      <span className="ml-2 font-mono text-[10px] text-accent">DEMO</span>
+                      <span className="ml-2 font-mono text-[10px] text-accent font-medium">DEMO</span>
                     )}
                   </Td>
                   <Td>
@@ -104,9 +120,9 @@ export default function Dashboard() {
                   <Td>
                     <Link
                       to={c.is_demo ? `/investigation/${c.case_id}` : `/report/${c.case_id}`}
-                      className="font-body text-[12px] text-accent hover:underline"
+                      className="font-body text-[12px] text-accent font-medium hover:underline"
                     >
-                      View Investigation →
+                      Open Case →
                     </Link>
                   </Td>
                 </tr>

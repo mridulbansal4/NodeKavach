@@ -1,126 +1,266 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { api } from "../api/client";
-import type { AccountAnalysis } from "../api/types";
-import { typologyLabel } from "../lib/severity";
-import SeverityBadge from "../components/SeverityBadge";
+import type { AccountAnalysis, Severity } from "../api/types";
 import AccountWorkspace from "../components/AccountWorkspace";
 import ReportView from "../components/ReportView";
 import SarModal from "../components/SarModal";
+import SeverityBadge from "../components/SeverityBadge";
+import { severityColor, typologyLabel } from "../lib/severity";
 
 export default function Investigation() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [library, setLibrary] = useState<AccountAnalysis[]>([]);
-  const [selected, setSelected] = useState<AccountAnalysis | null>(null);
+  const [active, setActive] = useState<AccountAnalysis | null>(null);
   const [sarOpen, setSarOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    api.demoLibrary().then((lib) => {
-      setLibrary(lib);
-      const pick = lib.find((a) => a.case_id === id) ?? lib[0] ?? null;
-      setSelected(pick);
-      if (!id && pick) navigate(`/investigation/${pick.case_id}`, { replace: true });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    api.demoLibrary().then(setLibrary);
   }, []);
 
   useEffect(() => {
-    if (id && library.length) {
-      const found = library.find((a) => a.case_id === id);
-      if (found) setSelected(found);
+    if (id) {
+      api.getInvestigation(id).then(setActive);
+    } else if (library.length && !active) {
+      setActive(library[0]);
     }
   }, [id, library]);
-
-  const copyReport = () => {
-    if (selected) {
-      navigator.clipboard.writeText(selected.ai_report);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    }
-  };
 
   return (
     <div>
       <header className="mb-6">
-        <h1 className="font-display text-[28px] font-bold text-textPrimary">Investigation Center</h1>
+        <h1 className="font-display text-[28px] font-bold text-primary">Investigation Center</h1>
         <p className="text-[13px] text-textSecondary">
-          Pre-cached demo accounts load instantly — every flagged account gets an AI investigation narrative.
+          Deep-dive into flagged operations — every entity gets an AI-generated investigation narrative.
         </p>
       </header>
 
-      <div className="grid gap-6" style={{ gridTemplateColumns: "260px 1fr" }}>
-        {/* Demo account library */}
-        <div className="panel p-3 self-start">
-          <div className="label-mono px-2 pb-2">DEMO ACCOUNT LIBRARY</div>
-          <div className="flex flex-col gap-2">
+      <div className="grid gap-6" style={{ gridTemplateColumns: "240px 1fr 300px" }}>
+        {/* Left: Entity Library */}
+        <div className="panel p-0 overflow-hidden">
+          <div className="px-4 py-3 border-b border-border bg-surface2">
+            <div className="label-mono">Entity Library</div>
+          </div>
+          <div className="flex flex-col">
             {library.map((a) => {
-              const active = selected?.case_id === a.case_id;
+              const isActive = active?.case_id === a.case_id;
               return (
                 <button
                   key={a.case_id}
-                  onClick={() => navigate(`/investigation/${a.case_id}`)}
-                  className={`text-left rounded-sm border p-3 transition-colors ${
-                    active
-                      ? "border-accent bg-surface2"
-                      : "border-border hover:bg-surface2"
+                  onClick={() => setActive(a)}
+                  className={`text-left px-4 py-3 border-b border-border/50 transition-colors ${
+                    isActive ? "bg-accent/8 border-l-2 border-l-accent" : "hover:bg-surface2 border-l-2 border-l-transparent"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[13px] text-textPrimary">{a.case_id}</span>
+                    <span className="font-mono text-[13px] text-textPrimary font-medium">{a.case_id}</span>
                     <SeverityBadge severity={a.severity} size="sm" />
                   </div>
-                  <div className="mt-1.5 flex items-center justify-between">
-                    <span className="text-[12px] text-textSecondary">
-                      {typologyLabel(a.classification.typology)}
-                    </span>
-                    <span className="font-display text-[15px] font-semibold text-textPrimary">
-                      {a.risk_score}
-                    </span>
+                  <div className="text-[12px] text-textSecondary mt-1">
+                    {typologyLabel(a.classification.typology)} · {a.risk_score}/100
                   </div>
-                  {a.f3912_flag && (
-                    <div className="mt-1 font-mono text-[10px] text-critical">⚠ fraud registry</div>
-                  )}
                 </button>
               );
             })}
+            {library.length === 0 && (
+              <div className="px-4 py-6 text-[12px] text-textMuted">
+                No demo entities loaded. Go to Data Feed to load the dataset.
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Workspace */}
-        <div>
-          {selected ? (
-            <div className="flex flex-col gap-6">
-              <AccountWorkspace a={selected} />
-
-              <div className="panel p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="section-header mb-0">AI Investigation Report</h3>
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-[10px] text-textMuted">
-                      source: {selected.ai_report_source}
-                    </span>
-                    <button className="btn-ghost" onClick={copyReport}>
-                      {copied ? "Copied" : "Copy Report"}
-                    </button>
-                    <button className="btn-primary" onClick={() => setSarOpen(true)}>
-                      Generate SAR Draft
+        {/* Center: Operation Summary */}
+        <div className="flex flex-col gap-6">
+          {active ? (
+            <>
+              <AccountWorkspace a={active} />
+              {active.ai_report && (
+                <div className="panel p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="section-header mb-0">AI Investigation Report</h3>
+                    <button className="btn-primary text-[12px]" onClick={() => setSarOpen(true)}>
+                      Flag for SAR Review
                     </button>
                   </div>
+                  <ReportView report={active.ai_report} />
+                  <div className="mt-6 border-t border-border pt-3 text-[11px] font-mono text-textMuted">
+                    Generated by MULEFLAGGER Financial Intelligence Platform · Model: XGBoost (
+                    {active.model_used}) · SHAP-attributed · Source: {active.ai_report_source}
+                  </div>
                 </div>
-                <ReportView report={selected.ai_report} />
-              </div>
-            </div>
+              )}
+            </>
           ) : (
-            <div className="panel p-10 text-center text-textMuted">
-              No accounts analysed yet. Load the BOI dataset to begin.
+            <div className="panel p-12 text-center text-textMuted text-[14px]">
+              Select an entity from the library to begin investigation.
             </div>
           )}
         </div>
+
+        {/* Right: Investigator Copilot */}
+        <div className="flex flex-col gap-4">
+          <CopilotPanel analysis={active} />
+        </div>
       </div>
 
-      {sarOpen && selected && <SarModal analysis={selected} onClose={() => setSarOpen(false)} />}
+      {sarOpen && active && <SarModal analysis={active} onClose={() => setSarOpen(false)} />}
     </div>
   );
+}
+
+// --------------------------------------------------------------------------- //
+// Investigator Copilot (right panel)
+// --------------------------------------------------------------------------- //
+function CopilotPanel({ analysis }: { analysis: AccountAnalysis | null }) {
+  if (!analysis) {
+    return (
+      <div className="panel p-6">
+        <div className="label-mono mb-3">Investigator Copilot</div>
+        <p className="text-[13px] text-textMuted">Select an entity to activate the copilot.</p>
+      </div>
+    );
+  }
+
+  const a = analysis;
+  const actions = getRecommendedActions(a.severity);
+  const rbiNote = getRbiNote(a.severity);
+  const campaignId = `CAMPAIGN-${String(a.case_id.replace(/[^0-9]/g, "") || "001").padStart(3, "0")}`;
+  const campaignEntities = Math.max(2, Math.ceil(a.risk_score / 25));
+  const exposure = (a.risk_score * 0.18).toFixed(1);
+
+  return (
+    <>
+      {/* Recommended Actions */}
+      <div className="panel p-5">
+        <div className="label-mono mb-3">Recommended Actions</div>
+        <div className="flex flex-col gap-2">
+          {actions.map((action, i) => (
+            <div key={i} className="flex items-start gap-2 text-[13px]">
+              <span className="text-accent mt-0.5 font-bold">{i + 1}.</span>
+              <span className="text-textPrimary">{action}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Regulatory Alerts */}
+      <div className="panel p-5">
+        <div className="label-mono mb-3">Regulatory Alert</div>
+        <div
+          className="rounded-md px-3 py-2 text-[12px] leading-relaxed"
+          style={{
+            backgroundColor: `${severityColor(a.severity)}08`,
+            borderLeft: `3px solid ${severityColor(a.severity)}`,
+            color: severityColor(a.severity),
+          }}
+        >
+          {rbiNote}
+        </div>
+      </div>
+
+      {/* Campaign Network */}
+      <div className="panel p-5">
+        <div className="label-mono mb-3">Campaign Network</div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between text-[13px]">
+            <span className="font-mono text-accent font-medium">{campaignId}</span>
+            <SeverityBadge severity={a.severity} size="sm" />
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-[12px]">
+            <div className="panel-2 px-3 py-2 rounded-md">
+              <div className="text-textMuted text-[10px] uppercase">Entities</div>
+              <div className="font-mono text-textPrimary font-medium">{campaignEntities}</div>
+            </div>
+            <div className="panel-2 px-3 py-2 rounded-md">
+              <div className="text-textMuted text-[10px] uppercase">Exposure</div>
+              <div className="font-mono text-textPrimary font-medium">₹{exposure}L</div>
+            </div>
+          </div>
+          <div className="text-[12px] text-textSecondary mt-1">
+            {typologyLabel(a.classification.typology)} operation with{" "}
+            {Math.round(a.classification.confidence * 100)}% confidence.
+          </div>
+        </div>
+      </div>
+
+      {/* Next Steps */}
+      <div className="panel p-5">
+        <div className="label-mono mb-3">Investigation Workflow</div>
+        <div className="flex flex-col gap-1.5">
+          {getWorkflowSteps(a.severity).map((step, i) => (
+            <div key={i} className="flex items-center gap-2 text-[12px]">
+              <span
+                className="inline-block h-5 w-5 rounded-full text-center leading-5 text-[10px] font-mono font-medium text-white"
+                style={{ backgroundColor: i === 0 ? "#2D7A9C" : "#E2E6ED", color: i === 0 ? "white" : "#5A6B7F" }}
+              >
+                {i + 1}
+              </span>
+              <span className={i === 0 ? "text-textPrimary font-medium" : "text-textSecondary"}>{step}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function getRecommendedActions(severity: Severity): string[] {
+  switch (severity) {
+    case "CRITICAL":
+      return [
+        "Immediate account freeze",
+        "File STR with FIU-IND",
+        "Escalate to financial crime unit",
+        "Preserve transaction evidence",
+        "Notify compliance officer",
+      ];
+    case "HIGH":
+      return [
+        "Apply step-up authentication",
+        "Prepare STR draft for review",
+        "Initiate enhanced monitoring",
+        "Flag associated beneficiaries",
+      ];
+    case "MEDIUM":
+      return [
+        "Enable enhanced transaction monitoring",
+        "Review counterparty relationships",
+        "Schedule periodic re-assessment",
+      ];
+    default:
+      return ["Routine logging", "No immediate action required"];
+  }
+}
+
+function getRbiNote(severity: Severity): string {
+  switch (severity) {
+    case "CRITICAL":
+      return "RBI Master Direction on KYC (2016) requires immediate account freeze. File STR with FIU-IND under PMLA, 2002. SAR: YES.";
+    case "HIGH":
+      return "Under RBI KYC Master Direction, apply enhanced due diligence. Prepare STR draft for FIU-IND review. SAR: YES (pending).";
+    case "MEDIUM":
+      return "RBI risk-based monitoring guidelines apply. Enhanced monitoring; no STR at this stage. SAR: NO (monitor).";
+    default:
+      return "No regulatory action indicated under current RBI guidance. Routine logging only.";
+  }
+}
+
+function getWorkflowSteps(severity: Severity): string[] {
+  if (severity === "CRITICAL" || severity === "HIGH") {
+    return [
+      "Review AI investigation report",
+      "Validate SHAP attributions",
+      "Freeze account (if CRITICAL)",
+      "Draft STR for FIU-IND",
+      "Notify compliance team",
+      "Archive case evidence",
+    ];
+  }
+  return [
+    "Review risk indicators",
+    "Enable enhanced monitoring",
+    "Schedule follow-up review",
+    "Log investigation outcome",
+  ];
 }

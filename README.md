@@ -1,32 +1,25 @@
-# MULEFLAGGER
+# MULEFLAGGER — Financial Intelligence Platform
 
-**Intelligence Against Financial Crime** — an AI-powered mule-account detection
-and suspicious-transaction classification platform for Indian banks.
+**Intelligence Against Financial Crime** — an AI-powered financial intelligence 
+platform for Indian banks.
 
 Built for the **Bank of India × IIT Hyderabad CyberShield Hackathon 2026, Problem
 Statement 2** (AI/ML Classification of Suspicious Mule Accounts).
 
 > MULEFLAGGER is not a fraud classifier — it is a fraud-intelligence operating
 > system. Every decision is explainable, every alert has a story, and every
-> flagged account gets an AI-generated investigation narrative.
+> flagged operation gets an AI-generated investigation narrative.
 
 ---
 
 ## What it does
 
-- Trains an **XGBoost** mule-detector on the BOI dataset (9,082 accounts, 3,924
-  anonymised features, **112:1 class imbalance**) with leakage-safe feature
-  engineering, SMOTE-in-fold cross-validation, and PR-curve threshold tuning.
-- Scores every account 0–100 and assigns a **severity band** (CRITICAL / HIGH /
-  MEDIUM / LOW) with a recommended action.
-- Explains every prediction with **SHAP** attributions (top-10 waterfall) and
-  **8 behavioural risk indicators**.
-- Classifies flagged accounts into **5 mule typologies** (Layer-1 Mule,
-  Pass-Through, Dormant-Activated, Synthetic-Identity, Network-Hub).
-- Generates a **7-section investigation report** with a **local LLM** (Ollama),
-  with a deterministic fallback when Ollama is unavailable.
-- Trains **two models** to expose feature leakage: Model A (with F3912, max
-  performance) vs **Model B** (without F3912, the production model).
+- **Intelligence Operations Center**: A premium interface for investigators to manage Active Fraud Operations and track Campaign Networks.
+- **XGBoost Mule Detector**: Scans the BOI dataset (9,082 entities, 3,924 anonymised features, **112:1 class imbalance**) using SMOTE-in-fold cross-validation.
+- **Network Architecture**: Integrates new simulation engines for **Entity Resolution**, **Risk Propagation**, and **Campaign Detection** to discover coordinated fraud rings.
+- **Explainable AI**: Explains every prediction with **SHAP** attributions (top-10 waterfall) and **8 behavioural risk indicators**.
+- **Investigator Copilot**: A local LLM (Ollama) that generates an investigation narrative, explains network topology, and recommends immediate actions (e.g., freeze, file STR).
+- **Leakage-Aware Metrics**: Trains **two models** to expose feature leakage: Model A (with F3912, max performance) vs **Model B** (without F3912, the production model).
 
 ### Headline results (held-out 20% test split)
 
@@ -49,7 +42,7 @@ React 18 + TypeScript + Vite + Tailwind  (port 3000)
                  ┌────────────────────────────┼────────────────────────────┐
             analyzers/                    engines/                         ai/
        dataset_loader               model · risk · classification     ollama_client
-       feature_engineer             shap · validation · cache         report_generator
+       feature_engineer             entity · propagate · campaign     report_generator
                                               │
                                     Local Ollama (llama3.2:3b)  ── no external calls
 ```

@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import type { Severity } from "../api/types";
 import { scoreColor } from "../lib/severity";
 
-// The signature MULEFLAGGER risk gauge: a 240° SVG arc, colour-coded by score,
-// with the score in 72px Space Grotesk at the centre, a severity label below,
-// a severity-matched glow, and a fill animation on load (0 -> score, 600ms).
-
-const START_ANGLE = 150; // degrees — opens at the bottom with a 120° gap
+// Risk gauge: 240° SVG arc, colour-coded by score, enterprise-style.
+const START_ANGLE = 150;
 const SWEEP = 240;
 
 function polar(cx: number, cy: number, r: number, angleDeg: number) {
@@ -38,7 +35,7 @@ export default function RiskGauge({
     let raf = 0;
     const tick = (t: number) => {
       const p = Math.min(1, (t - start) / dur);
-      const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      const eased = 1 - Math.pow(1 - p, 3);
       setAnimated(score * eased);
       if (p < 1) raf = requestAnimationFrame(tick);
     };
@@ -59,20 +56,11 @@ export default function RiskGauge({
   return (
     <div className="relative flex flex-col items-center" style={{ width: size }}>
       <svg width={size} height={size * 0.82} viewBox={`0 0 ${size} ${size * 0.82}`}>
-        <defs>
-          <filter id="gaugeGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
         {/* track */}
         <path
           d={trackPath}
           fill="none"
-          stroke="#1E3A5F"
+          stroke="#E2E6ED"
           strokeWidth={stroke}
           strokeLinecap="round"
         />
@@ -85,20 +73,19 @@ export default function RiskGauge({
           strokeLinecap="round"
           strokeDasharray={fullLen}
           strokeDashoffset={fullLen * (1 - fraction)}
-          filter="url(#gaugeGlow)"
           style={{ transition: "stroke 200ms linear" }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ top: -size * 0.06 }}>
         <span
           className="font-display font-bold leading-none"
-          style={{ fontSize: 72, color }}
+          style={{ fontSize: 64, color }}
         >
           {Math.round(animated)}
         </span>
-        <span className="font-body text-[11px] text-textMuted mt-1">/ 100 RISK SCORE</span>
+        <span className="font-body text-[11px] text-textMuted mt-1">/ 100 ENTITY RISK</span>
         <span
-          className="font-mono text-[14px] uppercase tracking-[0.2em] mt-2"
+          className="font-mono text-[13px] uppercase tracking-[0.15em] mt-2 font-medium"
           style={{ color }}
         >
           {severity}

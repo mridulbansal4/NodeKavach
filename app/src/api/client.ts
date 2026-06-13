@@ -6,6 +6,8 @@ import type {
   HealthResponse,
   JobStatus,
   MetricsResponse,
+  IntelligenceGraph,
+  NetworkRisk,
 } from "./types";
 
 const BASE = "/api";
@@ -57,4 +59,8 @@ export const api = {
   // Single account
   analyzeAccount: (features: Record<string, unknown>, caseId?: string) =>
     post<AccountAnalysis>("/analyze/account", { features, case_id: caseId }),
+
+  // Network Intelligence
+  getEntityGraph: (caseId: string) => get<IntelligenceGraph>(`/intelligence/${caseId}/graph`),
+  getCampaign: (caseId: string) => get<NetworkRisk>(`/intelligence/${caseId}/campaign`),
 };

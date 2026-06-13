@@ -4,8 +4,7 @@ import RiskGauge from "./RiskGauge";
 import BehaviouralBars from "./BehaviouralBars";
 import ShapWaterfall from "./ShapWaterfall";
 
-// The investigation workspace: gauge + typology + behavioural indicators + SHAP.
-// Shared by the Investigation Center and the full Report page.
+// Investigation workspace: gauge + classification + behavioural + SHAP.
 export default function AccountWorkspace({ a }: { a: AccountAnalysis }) {
   return (
     <div className="flex flex-col gap-6">
@@ -14,21 +13,21 @@ export default function AccountWorkspace({ a }: { a: AccountAnalysis }) {
         <div className="panel p-6 flex flex-col items-center justify-center">
           <RiskGauge score={a.risk_score} severity={a.severity} />
           {a.f3912_flag && (
-            <div className="mt-3 rounded-sm border border-critical/40 bg-critical/10 px-3 py-1.5 text-[12px] font-mono text-critical">
+            <div className="mt-3 rounded-md border border-critical/30 bg-critical/5 px-3 py-1.5 text-[12px] font-mono text-critical">
               ⚠ Matches fraud registry (F3912 = 1)
             </div>
           )}
         </div>
 
         <div className="panel p-6">
-          <h3 className="section-header">Mule Typology</h3>
+          <h3 className="section-header">Fraud Operation Classification</h3>
           {a.classification.typology ? (
             <>
               <div className="flex items-baseline gap-3">
-                <span className="font-display text-[26px] font-semibold text-textPrimary">
+                <span className="font-display text-[24px] font-semibold text-textPrimary">
                   {typologyLabel(a.classification.typology)}
                 </span>
-                <span className="font-mono text-[13px] text-accent">
+                <span className="font-mono text-[13px] text-accent font-medium">
                   {Math.round(a.classification.confidence * 100)}% confidence
                 </span>
               </div>
@@ -48,8 +47,8 @@ export default function AccountWorkspace({ a }: { a: AccountAnalysis }) {
               </div>
             </>
           ) : (
-            <div className="text-[14px] text-low">
-              No mule typology assigned — profile consistent with legitimate usage.
+            <div className="text-[14px] text-low font-medium">
+              Entity cleared — no fraud pattern detected.
             </div>
           )}
           <div className="mt-5 grid grid-cols-2 gap-3 text-[12px]">
@@ -78,8 +77,8 @@ export default function AccountWorkspace({ a }: { a: AccountAnalysis }) {
 
 function ProfileItem({ label, value }: { label: string; value: string | null }) {
   return (
-    <div className="panel-2 px-3 py-2">
-      <div className="text-textMuted uppercase tracking-wider text-[10px]">{label}</div>
+    <div className="panel-2 px-3 py-2 rounded-lg">
+      <div className="text-textMuted uppercase tracking-wider text-[10px] font-medium">{label}</div>
       <div className="font-mono text-[13px] text-textPrimary mt-0.5">{value ?? "—"}</div>
     </div>
   );

@@ -1,6 +1,5 @@
 // Renders an AI investigation report. Splits on numbered/echoed section headers
-// and styles each header in the analyst section style. Tolerant of both the
-// Ollama markdown (**HEADER**) and the deterministic "1. HEADER" fallback.
+// and styles each in a card with enterprise typography.
 
 const SECTIONS = [
   "EXECUTIVE SUMMARY",
@@ -44,10 +43,10 @@ function parse(report: string): Block[] {
 export default function ReportView({ report }: { report: string }) {
   const blocks = parse(report);
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       {blocks.map((b, i) => (
-        <section key={i} className="animate-fadeIn">
-          <h3 className="section-header text-[14px]">{b.header}</h3>
+        <section key={i} className="animate-fadeIn panel-2 p-5 rounded-lg">
+          <h3 className="section-header text-[13px]">{b.header}</h3>
           <div className="text-[13px] leading-relaxed text-textPrimary whitespace-pre-wrap font-body">
             {b.body.trim().replace(/\*\*/g, "")}
           </div>

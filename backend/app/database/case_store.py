@@ -14,6 +14,13 @@ import threading
 from app.config import DATA_DIR
 from app.models.schemas import AccountAnalysis, CaseRecord
 
+# For mocking STORE object in intelligence.py
+class Store:
+    def get_case(self, case_id: str) -> CaseRecord | None:
+        return get_case(case_id)
+
+STORE = Store()
+
 _STORE_PATH = DATA_DIR / "cases.json"
 _LOCK = threading.Lock()
 

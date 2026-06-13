@@ -236,6 +236,36 @@ class AccountRequest(BaseModel):
 
 
 # --------------------------------------------------------------------------- #
+# Network Intelligence (New Engines)
+# --------------------------------------------------------------------------- #
+class IntelligenceNode(BaseModel):
+    id: str
+    type: str  # "entity", "ip", "device", "counterparty"
+    label: str
+    risk_score: float = 0.0
+    is_mule: bool = False
+    attributes: dict[str, Any] = Field(default_factory=dict)
+
+class IntelligenceLink(BaseModel):
+    source: str
+    target: str
+    type: str  # "transferred_to", "shares_ip", "shares_device"
+    weight: float = 1.0
+
+class IntelligenceGraph(BaseModel):
+    nodes: list[IntelligenceNode] = Field(default_factory=list)
+    links: list[IntelligenceLink] = Field(default_factory=list)
+
+class NetworkRisk(BaseModel):
+    community_id: str
+    size: int
+    mean_risk: float
+    mule_count: int
+    exposure_lakhs: float
+    central_hubs: list[str] = Field(default_factory=list)
+
+
+# --------------------------------------------------------------------------- #
 # Health
 # --------------------------------------------------------------------------- #
 class OllamaStatus(BaseModel):

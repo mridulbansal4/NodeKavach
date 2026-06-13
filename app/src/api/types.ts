@@ -169,3 +169,36 @@ export interface HealthResponse {
   dataset_loaded: boolean;
   dataset_accounts: number;
 }
+
+// --------------------------------------------------------------------------- //
+// Network Intelligence
+// --------------------------------------------------------------------------- //
+export interface IntelligenceNode {
+  id: string;
+  type: string;
+  label: string;
+  risk_score: number;
+  is_mule: boolean;
+  attributes: Record<string, unknown>;
+}
+
+export interface IntelligenceLink {
+  source: string;
+  target: string;
+  type: string;
+  weight: number;
+}
+
+export interface IntelligenceGraph {
+  nodes: IntelligenceNode[];
+  links: IntelligenceLink[];
+}
+
+export interface NetworkRisk {
+  community_id: string;
+  size: number;
+  mean_risk: number;
+  mule_count: number;
+  exposure_lakhs: number;
+  central_hubs: string[];
+}
