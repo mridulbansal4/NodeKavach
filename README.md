@@ -4,10 +4,10 @@
 
 ### Intelligence Against Financial Crime
 
-**An AI-powered mule-account detection & suspicious-transaction classification platform for Indian banks.**
+**An AI-powered mule-account detection & suspicious-transaction classification platform for banks and financial institutions.**
 
-Built for the **Bank of India × IIT Hyderabad — CyberShield Hackathon 2026** · Problem Statement 2
-*(AI/ML Classification of Suspicious Mule Accounts)*
+Detect mule accounts in highly imbalanced banking data, score and explain every decision,
+and generate an investigation narrative for each flagged account — all running entirely on-premises.
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?logo=fastapi&logoColor=white)
@@ -37,7 +37,7 @@ Built for the **Bank of India × IIT Hyderabad — CyberShield Hackathon 2026** 
 - [Architecture](#architecture)
 - [Tech stack](#tech-stack)
 - [Getting started](#getting-started)
-- [Demo flow for judges](#demo-flow-for-judges)
+- [Walkthrough](#walkthrough)
 - [API reference](#api-reference)
 - [Project structure](#project-structure)
 - [Security & privacy](#security--privacy)
@@ -49,7 +49,8 @@ Built for the **Bank of India × IIT Hyderabad — CyberShield Hackathon 2026** 
 
 Mule accounts are the laundering rails of digital financial crime — ordinary-looking
 accounts recruited (or synthetically created) to receive and forward stolen funds.
-Detecting them is a **needle-in-a-haystack** problem:
+Detecting them is a **needle-in-a-haystack** problem. MULEFLAGGER is developed against a
+representative anonymised banking dataset with exactly these characteristics:
 
 - **9,082 accounts**, **3,924 anonymised features** (`F1`–`F3924`)
 - A binary target `F3924` (1 = mule, 0 = legitimate)
@@ -104,14 +105,14 @@ flags **80 of 81 mules**.
 in the entire dataset — the textbook signature of a **post-labelling leakage feature**
 (one that is only populated *after* an account is confirmed fraudulent).
 
-A naive submission would include it and report a perfect score. MULEFLAGGER instead
-**trains both models and shows the gap**:
+Naively keeping it yields a perfect-but-meaningless score. MULEFLAGGER instead
+**trains both models and surfaces the gap**:
 
 - **Model A** keeps F3912 → PR-AUC **1.000** (presented with a leakage warning banner).
 - **Model B** drops F3912 entirely before feature selection → PR-AUC **0.919** (production).
 
-Demonstrating that we *understand* the data — rather than reporting an inflated number —
-is the project's core intellectual-honesty statement.
+Building both — and defaulting to the leakage-free model — is a deliberate design choice:
+the deployable number is the honest one, and the leakage is documented rather than hidden.
 
 A related finding: the engineered **missingness indicators** (`F3043_missing`, etc.)
 routinely surface in the top SHAP importances, confirming the thesis that in this
@@ -187,8 +188,8 @@ npm run dev
 
 Open **http://localhost:3000** · interactive API docs at **http://localhost:8000/docs**.
 
-> **The BOI dataset (`datasets/boi_dataset.csv`, ~112 MB) is not in this repo** — it
-> exceeds GitHub's 100 MB file limit. Place the hackathon `DataSet.csv` at
+> **The training dataset (`datasets/boi_dataset.csv`, ~112 MB) is not in this repo** — it
+> exceeds GitHub's 100 MB file limit. Place your source `DataSet.csv` at
 > `datasets/boi_dataset.csv` before training. `datasets/labels_reference.csv`
 > (ground-truth labels) **is** included.
 >
@@ -196,14 +197,14 @@ Open **http://localhost:3000** · interactive API docs at **http://localhost:800
 
 ---
 
-## Demo flow for judges
+## Walkthrough
 
 1. **Dashboard** — KPI cards (accounts analysed, mules flagged, avg risk, **PR-AUC 0.919**) and the recent-cases table.
-2. **Investigation** — click **Alpha-001** → an instant CRITICAL *Layer-1 Mule* with risk gauge, SHAP waterfall, behavioural indicators, and an AI report. **Alpha-042** matches the fraud registry (`F3912 = 1`).
+2. **Investigation** — select **Alpha-001** → an instant CRITICAL *Layer-1 Mule* with risk gauge, SHAP waterfall, behavioural indicators, and an AI report. **Alpha-042** matches the fraud registry (`F3912 = 1`).
 3. **Metrics** — PR-AUC as the headline; toggle **Model A** to see the leakage warning; accuracy is shown deprioritised.
-4. **Dataset** — *Load Demo Dataset* and watch the **6-stage pipeline** process 9,082 accounts live; inspect the 18 domain-hint features table.
+4. **Dataset** — load the dataset and watch the **6-stage pipeline** process 9,082 accounts live; inspect the 18 domain-hint features table.
 
-The 5 demo accounts load **instantly from cache** — no upload required.
+Five pre-built demo accounts load **instantly from cache** — no upload required.
 
 ---
 
@@ -272,6 +273,6 @@ Every analyzer/engine ships a standalone self-test: `python -m app.engines.<name
 <div align="center">
 
 **MULEFLAGGER** · XGBoost (Model B) · SHAP-attributed analysis · local Ollama
-Built for **BOI × IITH CyberShield Hackathon 2026** · Problem Statement 2
+Intelligence Against Financial Crime
 
 </div>
