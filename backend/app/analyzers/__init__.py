@@ -1,1 +1,1 @@
-"""MULEFLAGGER analyzers package."""
+"""NodeKavach analyzers package."""

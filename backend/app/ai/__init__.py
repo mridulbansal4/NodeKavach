@@ -1,1 +1,1 @@
-"""MULEFLAGGER ai package."""
+"""NodeKavach ai package."""

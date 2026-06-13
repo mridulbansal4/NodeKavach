@@ -1,1 +1,1 @@
-"""MULEFLAGGER database package."""
+"""NodeKavach database package."""

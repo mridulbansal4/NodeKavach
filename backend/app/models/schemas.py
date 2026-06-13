@@ -1,5 +1,5 @@
 """
-MULEFLAGGER — API contracts (Pydantic v2 schemas).
+NodeKavach — API contracts (Pydantic v2 schemas).
 
 These models define every payload that crosses the backend boundary. Built
 first so that all engines, routes, and the AI layer share one vocabulary.
@@ -25,7 +25,7 @@ class Severity(str, Enum):
 
 
 class MuleTypology(str, Enum):
-    """The five mule account typologies MULEFLAGGER classifies into."""
+    """The five mule account typologies NodeKavach classifies into."""
 
     LAYER_1_MULE = "LAYER_1_MULE"
     PASS_THROUGH = "PASS_THROUGH"

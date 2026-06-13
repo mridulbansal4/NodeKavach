@@ -1,4 +1,4 @@
-# MULEFLAGGER — System Architecture
+# NodeKavach — System Architecture
 
 ## 1. Component diagram
 

@@ -1,4 +1,4 @@
-// MULEFLAGGER API response interfaces — mirror the backend Pydantic schemas.
+// NodeKavach API response interfaces — mirror the backend Pydantic schemas.
 
 export type Severity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 

@@ -1,5 +1,5 @@
 """
-MULEFLAGGER — shared configuration & domain knowledge.
+NodeKavach — shared configuration & domain knowledge.
 
 Single source of truth for: paths, the target column, the human-readable
 feature dictionary, the 18 BOI domain-hint features, categorical encodings,
@@ -15,7 +15,7 @@ from pathlib import Path
 # Paths
 # --------------------------------------------------------------------------- #
 BACKEND_DIR = Path(__file__).resolve().parent.parent          # .../backend
-PROJECT_DIR = BACKEND_DIR.parent                               # .../MULEFLAGGER
+PROJECT_DIR = BACKEND_DIR.parent                               # .../NodeKavach
 CACHE_DIR = BACKEND_DIR / "cache"
 DATA_DIR = BACKEND_DIR / "data"
 DATASETS_DIR = PROJECT_DIR / "datasets"

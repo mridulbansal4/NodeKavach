@@ -1,5 +1,5 @@
 """
-main.py — MULEFLAGGER FastAPI application entry point.
+main.py — NodeKavach FastAPI application entry point.
 
 Bootstraps the API, loads the pre-trained models and demo cache at startup,
 and mounts all routers. Fully offline: all ML inference and LLM generation
@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="MULEFLAGGER API",
+    title="NodeKavach API",
     description="Intelligence Against Financial Crime — AI mule-account detection "
                 "for the BOI × IITH CyberShield Hackathon 2026.",
     version="1.0.0",
@@ -60,7 +60,7 @@ app.include_router(intelligence.router)
 @app.get("/")
 def root():
     return {
-        "name": "MULEFLAGGER",
+        "name": "NodeKavach",
         "tagline": "Intelligence Against Financial Crime",
         "docs": "/docs",
         "health": "/api/health",

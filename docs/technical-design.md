@@ -1,4 +1,4 @@
-# MULEFLAGGER — Technical Design
+# NodeKavach — Technical Design
 
 ## 1. The 112:1 imbalance strategy — why PR-AUC, never accuracy
 

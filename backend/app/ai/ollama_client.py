@@ -102,7 +102,7 @@ def _selftest() -> None:
     print(f"model     : {st.model}")
     print(f"available : {st.available_models}")
     if st.reachable:
-        out = c.generate("Reply with exactly: MULEFLAGGER ONLINE", temperature=0.0)
+        out = c.generate("Reply with exactly: NodeKavach ONLINE", temperature=0.0)
         print(f"generate  : {out!r}")
     print("OK")
 
